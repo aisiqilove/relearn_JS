@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // 1.全局上下文默认this指向window, 严格模式下指向undefined
+    // 2.谁调用指谁
+    let obj = {
+      a: function () {
+        console.log(this)
+      }
+    }
+    let func = obj.a
+    // func()
+
+    // 3.对象方法调用  对象.方法
+    // obj.a()
+
+    // 4.DOM事件绑定
+    // onclick和addEventerListener中 this 默认指向绑定事件的元素。
+    // IE比较奇异，使用attachEvent，里面的this默认指向window。
+
+    // 5.new+构造函数
+    // 构造函数中的this指向实例对象
+
+    // 6.箭头函数this
+    // 箭头函数没有this, 因此也不能绑定。里面的this会指向当前最近的非箭头函数的this，找不到就是window(严格模式是undefined)
+    let obj2 = {
+      a: function () {
+        console.log(this)
+
+        // function log() {
+        //   console.log(this)
+        // };
+        // log();
+      },
+      b: function () {
+        // var log = () => {
+        //   console.log(this)
+        // }
+        // log()
+        return () => {
+          console.log(this)
+        }
+
+      }
+    };
+    //obj2.a(); 
+    // obj2.b(); // 找到最近的非箭头函数a，a现在绑定着obj, 因此箭头函数中的this是obj
+
+    // var f = obj2.b.bind(this); // 硬绑定this ==> window
+    // f()
+    var F2 = obj2.a;
+    var F = obj2.b; // 硬绑定this ==> window
+    var Fn = new F()
+    var Fn2 = new F2()
+    console.log(Fn)
+    Fn()
+    // console.log(fn())
+    // fn // 箭头函数或者函数简写不能 new
+    // 优先级: new > call、apply、bind > 对象.方法 > 直接调用。
+
+  </script>
+</body>
+
+</html>

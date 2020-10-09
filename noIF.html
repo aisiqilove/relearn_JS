@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+
+    //实现一个函数：输入一个学生成绩，显示他的等级，等级分别为：90-100为A等，80-89为B等，70-79为C等，60-69为D等，0-59为E等
+    //不使用if else
+    var x = 90
+
+    function rank(x) {
+      return 10 - parseInt(x / 10)
+    }
+
+    var rank2 = x => 10 - parseInt(x / 10)
+    console.log(rank2(x))
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <script>
+    let str = "background-color"
+    function camelize(str) {
+      return str.split('-').map((item, index) => {
+        if (item && index > 0) {
+          return item[0].toUpperCase() + item.slice(1)
+        } else if (item && index == 0) {
+          return item
+        }
+      }).join('')
+    }
+    camelize(str)
+
+    let arr = [5, 3, 8, 1];
+
+    let filtered = filterRange(arr, 1, 4);
+
+    // alert(filtered); // 3,1（匹配值）
+
+    // alert(arr); // 5,3,8,1（未修改
+
+    function filterRange(arr, min, max) {
+      let filterArr = arr.filter(item => item >= min && item <= max)
+      return filterArr
+    }
+
+    let salaries = {
+      "John": 100,
+      "Pete": 300,
+      "Mary": 250
+    };
+
+    console.log(sumSalaries(salaries)); // 650
+
+    function sumSalaries(obj) {
+      let sum = 0
+      Object.values(obj).forEach(item => { sum += item })
+      return sum
+    }
+
+    function count(obj) {
+     return Object.keys(obj).length
+    }
+
+    let user = {
+      name: 'John',
+      age: 30
+    };
+
+    console.log(count(user)); // 2
+  </script>
+</body>
+
+</html>

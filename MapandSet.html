@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Map and Set（映射和集合）</title>
+</head>
+
+<body>
+  <script>
+    // Map
+    let map = new Map()
+    map.set('1', 'str1')
+    map.set(1, 'num1')
+    map.set(true, 'bool1')
+    console.log(map)
+    console.log(map.get('1'))
+    console.log(map.size)
+
+    // 对象键
+    let john = { name: "John" };
+
+    // 存储每个用户的来访次数
+    let visitsCountMap = new Map();
+
+    // john 是 Map 中的键 keys values entries
+    visitsCountMap.set(john, 123);
+    for (let [key, value] of visitsCountMap.entries()) {
+      console.log(`key ${key}, value ${value}`);
+    }
+    console.log(visitsCountMap.get(john)); // 123
+
+    // new Map(Object.entries(obj)) 对象转Map
+
+    // fromEntries Map转对象
+    let prices = Object.fromEntries([
+      ['banana', 1],
+      ['orange', 2],
+      ['meat', 4]
+    ]);
+
+    // 现在 prices = { banana: 1, orange: 2, meat: 4 }
+
+    console.log(prices.orange); // 2
+
+    // Set
+
+    function unique(arr) {
+      let setP = new Set(arr)
+      console.log(setP)
+      let setA = Array.from(new Set(arr))
+      return setA
+    }
+
+    let values = ["Hare", "Krishna", "Hare", "Krishna",
+      "Krishna", "Krishna", "Hare", "Hare", ":-O"
+    ];
+
+    console.log(unique(values)); // Hare, Krishna, :-O
+
+
+    let arr = ["nap", "teachers", "cheaters", "PAN", "ear", "era", "hectares"];
+    function aclean(arr) {
+      let map = new Map()
+      for (let word of arr) {
+        // 将单词 split 成字母，对字母进行排序，之后再 join 回来
+        let sorted = word.toLowerCase().split('').sort().join(''); // (*)
+        map.set(sorted, word)
+      }
+      return Array.from(map.values())
+    }
+    console.log(aclean(arr)); //
+
+
+
+    let map2 = new Map();
+
+    map2.set("name", "John");
+
+    let keys = Array.from(map2.keys());
+    for (let key of map2.keys()) {
+      console.log(key)
+    }
+    // Error: keys.push is not a function
+    keys.push("more");
+  </script>
+</body>
+
+</html>

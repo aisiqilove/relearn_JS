@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    let obj = {}
+
+    function A() { return obj }
+    function B() { return obj }
+
+    // console.log(new A == new B)
+    // console.log(new A === new B)
+
+    //     当一个函数被使用 new 操作符执行时，它按照以下步骤：
+    // 一个新的空对象被创建并分配给 this。
+    // 函数体执行。通常它会修改 this，为其添加新的属性。
+    // 返回 this 的值。
+    // new User(...) 做的就是类似的事情：
+    function User(name) {
+      // this = {};（隐式创建）
+
+      // 添加属性到 this
+      this.name = name;
+      this.isAdmin = false;
+
+      // return this;（隐式返回）
+    }
+
+    function Calculator() {
+      this.read = function () {
+        this.x = prompt('x', '')
+        this.y = prompt('y', '')
+      }
+      this.sum = function () {
+        return Number(this.x) + Number(this.y)
+      }
+      this.mul = function () {
+        return this.x * this.y
+      }
+    }
+
+    let calculator = new Calculator()
+    let calculator2 = new Calculator()
+    calculator.read()
+    console.log(calculator.prototype == calculator2.prototype)
+  </script>
+</body>
+
+</html>
