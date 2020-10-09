@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>属性标志和属性描述符</title>
+</head>
+
+<body>
+  <script>
+
+    // let descriptor = Object.getOwnPropertyDescriptor(obj, propertyName);
+    let user = {
+      name: "John"
+    };
+
+    let descriptor = Object.getOwnPropertyDescriptor(user, 'name');
+
+    console.log(JSON.stringify(descriptor, null, 2));
+
+    // 修改标志 Object.defineProperty(obj, propertyName, descriptor) 
+    Object.defineProperty(user, 'age', {
+      value: 18,
+      "writable": false,
+      "enumerable": true,
+      "configurable": false
+    })
+
+    let descriptor2 = Object.getOwnPropertyDescriptor(user, 'age');
+
+    console.log(JSON.stringify(descriptor2));
+
+    let obj = {}
+    let clone = Object.defineProperties({}, Object.getOwnPropertyDescriptors(obj));
+
+    for (let key in user) {
+      // enumerable 为true 才能循环
+      console.log(user)
+      clone[key] = user[key]
+    }
+    // 
+    console.log(Object.getOwnPropertyDescriptors(clone))
+
+  </script>
+
+  <script>
+
+    let user2 = {
+      get name() {
+        return this._name;
+      },
+
+      set name(value) {
+        if (value.length < 4) {
+          alert("Name is too short, need at least 4 characters");
+          return;
+        }
+        this._name = value;
+      }
+    };
+
+    user2.name = "Pete";
+    console.log(user2.name); // Pete
+    console.log(user2._name )
+    // user.name = ""; // Name 太短了……
+  </script>
+
+</body>
+
+</html>
