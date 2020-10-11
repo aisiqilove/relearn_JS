@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>函数对象NFE</title>
+</head>
+
+<body>
+    <script>
+        // func 是函数局部域的。它不是从外部获取的（而且它对外部也是不可见的）。规范确保它只会引用当前函数。
+        let sayHi = function func(who) {
+            if (who) {
+                alert(`Hello, ${who}`);
+            } else {
+                func("Guest");
+            }
+        };
+
+        let welcome = sayHi;
+        sayHi = null;
+        // welcome('')
+
+        function makeCounter() {
+            // 函数对象属性
+            // function counter() {
+            //     return counter.count++;
+            // };
+
+            // counter.count = 0;
+            // counter.set = function (value) {
+            //     counter.count = value;
+            // }
+            // counter.decrease = function (value) {
+            //     counter.count--;
+            // }
+
+            // return counter;
+
+            // 闭包
+            let count = 0
+            function counter() {
+                return count++
+            }
+            counter.set = function (value) {
+                count = value;
+            }
+            counter.decrease = function (value) {
+                count--;
+            }
+            return counter
+        }
+        let counter = makeCounter();
+
+        // alert(counter()); // 0
+        // alert(counter()); // 1
+
+        // counter.set(10); // set the new count
+
+        // alert(counter()); // 10
+
+
+        function sum(a) {
+            let currentSum = a;
+
+            function f(b) {
+                currentSum += b;
+                return f;
+            }
+            // f.toString = function () {
+            //     return currentSum
+            // }
+            // f[Symbol.toPrimitive] = function () {
+            //     return currentSum
+            // }
+            f.valueOf = function () {
+                return currentSum
+            }
+            return f
+        }
+
+        alert((sum(1)(1)(1)(1)(1)).valueOf())
+    </script>
+</body>
+
+</html>

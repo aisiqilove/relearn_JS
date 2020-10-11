@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>函数绑定</title>
+</head>
+
+<body>
+    <script>
+        "use strict";
+        function f() {
+            alert(this); // 严格模式是 null 非严格模式 window
+        }
+
+        let user = {
+            g: f.bind(null)
+        };
+
+        user.g();
+
+
+        // 二次bind
+        function f2() {
+            alert(this.name);
+        }
+
+        f2 = f2.bind({ name: "John" }).bind({ name: "Ann" });
+
+        f2();
+
+        // bind 的结果是另一个对象。它并没有 test 属性。
+        function sayHi() {
+            alert(this.name);
+        }
+        sayHi.test = 5;
+
+        let bound = sayHi.bind({
+            name: "John"
+        });
+
+        alert(bound.test); // 输出将会是什么？为什么？
+
+        function askPassword(ok, fail) {
+            let password = prompt("Password?", '');
+            if (password == "rockstar") ok();
+            else fail();
+        }
+
+        let user2 = {
+            name: 'John',
+
+            loginOk() {
+                alert(`${this.name} logged in`);
+            },
+
+            loginFail() {
+                alert(`${this.name} failed to log in`);
+            },
+            login(result) {
+                alert(this.name + (result ? ' logged in' : ' failed to log in'));
+            }
+        };
+
+        // askPassword(user2.loginOk.bind(user2), user2.loginFail.bind(user2));
+        askPassword(user2.login.bind(user2, true), user2.login.bind(user2, false));
+    </script>
+</body>
+
+</html>

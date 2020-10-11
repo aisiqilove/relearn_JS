@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>装饰模式和转发</title>
+</head>
+
+<body>
+    <script>
+        function work(a, b) {
+            console.log(a + b)
+        }
+        function spy(func) {
+            // warpper.calls = []
+            function warpper(...arguments) {
+                // warpper.calls.push(arguments)
+                warpper.calls = [...arguments]
+                return func.apply(this, arguments)
+            }
+            warpper.calls = []
+            return warpper
+        }
+        work = spy(work)
+        // work(1, 2); // 3
+        // console.log(work.calls)
+
+        function f(a) {
+            console.log(a)
+        }
+
+        function delay(f, delay) {
+            function warpper() {
+                setTimeout(() => f.apply(this, arguments), delay)
+            }
+            return warpper
+        }
+
+        function delay(f, delay) {
+            function warpper(...agrs) {
+                setTimeout(() => {
+                    f.apply(this, agrs)
+                }, delay)
+            }
+            return warpper
+        }
+        let f1000 = delay(f, 1000)
+        // console.log(f1000)
+        f1000('test')
+
+        function debounce(f, delay, i = null) {
+            return (...agrs) => {
+                console.log('222')
+                clearTimeout(i)
+                i = setTimeout(() => f(...agrs), delay)
+            }
+        }
+        let fa = debounce(f, 2000)
+        let ft = throttle(f, 2000)
+
+        function throttle(f, delay) {
+            let flag = false
+            return (...agrs) => {
+                if (flag) return
+                flag = true
+                f(...agrs)
+                setTimeout(() => { flag = false }, delay)
+            }
+        }
+
+        window.onresize = () => {
+            // ft('111111')
+            // fa('111111')
+        }
+
+    </script>
+</body>
+
+</html>
