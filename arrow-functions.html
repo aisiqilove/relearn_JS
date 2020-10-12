@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>arrow-functions</title>
+</head>
+
+<body>
+  <!-- 不具有 this 自然也就意味着另一个限制：箭头函数不能用作构造器（constructor）。不能用 new 调用它们。 -->
+  <!-- 箭头函数也没有 arguments 变量。没有 super -->
+  <script>
+
+    {
+      let group = {
+        title: "Our Group",
+        students: ["John", "Pete", "Alice"],
+
+        // a: () => {
+          a: function showList() {
+          console.log(this)
+          this.students.forEach(
+            student => alert(this.title + ': ' + student)
+          );
+        }
+      };
+
+      group.a();
+
+      let a =  group.a
+      a()  // window
+    }
+  </script>
+</body>
+
+</html>

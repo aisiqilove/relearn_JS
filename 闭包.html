@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>闭包</title>
+</head>
+
+<body>
+  <script>
+    {
+      function Counter() {
+        let count = 0;
+
+        this.up = function () {
+          return ++count;
+        };
+        this.down = function () {
+          return --count;
+        };
+      }
+
+      let counter = new Counter();
+
+      // alert(counter.up()); // ?
+      // alert(counter.up()); // ?
+      // alert(counter.down()); // ?
+    }
+    'use strict';
+    let phrase = "Hello";
+
+    if (true) {
+      let user = "John";
+
+      function sayHi() {
+        console.log(`${phrase}, ${user}`);
+      }
+      // let sayHi = function sayHi() {
+      //   console.log(`${phrase}, ${user}`);
+      // }
+    }
+
+    sayHi();
+
+    //sum(a)(b) = a+b
+    function sum(a) {
+      return function (b) {
+        return a + b
+      }
+    }
+    function sum2(a) {
+      let sums = a
+      function f(b) {
+        sums += b
+        return f
+      }
+      f.toString = () => {
+        return sums
+      }
+      return f
+    }
+
+    // console.log(sum(1)(2))
+    // console.log(sum(1)(-2))
+    // console.log(sum2(1)(-2)(9))
+
+
+    {
+      let arr = [1, 2, 3, 4, 5, 6, 7];
+
+      console.log(arr.filter(item => {
+        return [1, 2, 10].includes(item)
+      }))
+
+      console.log(arr.filter(inBetween(3, 6))); // 3,4,5,6
+
+      // alert(arr.filter(inArray([1, 2, 10]))); // 1,2
+
+      function inBetween(a, b) {
+        return function (x) {
+          return x <= b && x >= a
+        }
+      }
+
+      let users = [
+        { name: "John", age: 20, surname: "Johnson" },
+        { name: "Pete", age: 18, surname: "Peterson" },
+        { name: "Ann", age: 19, surname: "Hathaway" }
+      ];
+
+      users.sort(byField('age'));
+      function byField(fieldName) {
+        return function (a, b) {
+          return a[fieldName] > b[fieldName] ? 1 : -1;
+        }
+      }
+    }
+
+    {
+      function makeArmy() {
+        let shooters = [];
+
+        // let i = 0;
+        // while (i < 10) {
+        //   let j = i; // **
+        //   let shooter = function () { // shooter 函数
+        //     alert(j); // 应该显示当前的编号
+        //   };
+        //   shooters.push(shooter);
+        //   i++;
+        // }
+
+        for (let i = 0; i < 10; i++) {
+          let shooter = function () { // shooter 函数
+            alert(i); // 应该显示其编号
+          };
+          shooters.push(shooter);
+        }
+
+        return shooters;
+      }
+
+      let army = makeArmy();
+
+      army[0](); // 编号为 0 的 shooter 值为 10
+      army[5](); // 编号为 5 的 shooter 值也是 10……
+      // ... 所有的 shooter 的值都是 10，而不是他们的编号 0, 1, 2, 3...
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    'use strict';
+    // var obj = {
+    //   name: 'aaa',
+    //   a: function () {
+    //     console.log(this.name)
+    //   }
+    // }
+    // let a = obj.a
+    // obj.a()
+    // a()
+
+    // function makeUser2() {
+    //   return {
+    //     name: "John",
+    //     ref: this
+    //   };
+    // };
+
+    // let user = makeUser2();
+    // let user2 = {
+    //   name: "John2",
+    //   ref: this
+    // }
+    // console.log(makeUser2().ref)
+    // console.log(user2.ref); // 结果是什么？
+    // console.log(user.name)
+    let obj2 = {
+      a: function () {
+        console.log(this)
+      },
+      b:() => {
+        return () => {
+          console.log(this)
+        }
+      }
+    };
+    let a = obj2.a
+    let b = obj2.b
+    // obj2.a();
+    // a()
+    b()
+    console.log(obj2.b()())
+    obj2.b(); // 找到最近的非箭头函数b，b现在绑定着obj, 因此箭头函数中的this是obj
+  </script>
+</body>
+
+</html>

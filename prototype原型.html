@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>原型继承（Prototypal inheritance）</title>
+</head>
+
+<body>
+  <script>
+    let animal = {
+      eats: true,
+    };
+    let rabbit = {
+      jumps: true
+    };
+
+    function food() {
+      this.name = 'food'
+    }
+
+    let food1 = new food()
+
+
+
+    rabbit.__proto__ = animal; // (*)
+    // 现在这两个属性我们都能在 rabbit 中找到：
+    // alert(rabbit.eats); // true (**)
+    // alert(rabbit.jumps); // true
+    // console.log(rabbit.prototype)
+    // console.log(animal.__proto__)
+    // console.log(rabbit.__proto__)
+
+    console.log(food.prototype == food1.__proto__)
+    console.log(food.prototype.constructor == food)
+    console.log(food1.__proto__.constructor == food)
+
+    console.log(food.prototype)
+
+    console.log(rabbit)
+    // console.log(animal)
+
+    let head = {
+      glasses: 1
+    };
+
+    let table = {
+      pen: 3,
+      __proto__: head
+    };
+
+    let bed = {
+      sheet: 1,
+      pillow: 2,
+      __proto__: table
+    };
+
+    let pockets = {
+      money: 2000,
+      __proto__: bed
+    };
+
+    // 那个调用快？
+    // console.log(pockets.glasses)
+    // console.log(head.glasses)
+
+    {
+      let animal = {
+        eat() {
+          this.full = true;
+        }
+      };
+
+      let rabbit = {
+        __proto__: animal
+      };
+
+      // 属性查找和执行是两回事儿。
+
+      // 首先在原型中找到 rabbit.eat 方法，然后在 this=rabbit 的情况下执行。
+
+      rabbit.eat();
+      console.log(rabbit)
+      console.log(animal)
+    }
+
+
+    {
+      let hamster = {
+        stomach: [],
+
+        eat(food) {
+          this.stomach.push(food);
+        }
+      };
+      // hamster.__proto__.eat = function (food) {
+      //   this.stomach.push(food);
+      // } 
+
+      let speedy = {
+        stomach: [],
+        __proto__: hamster
+      };
+
+      let lazy = {
+        stomach: [],
+        __proto__: hamster
+      };
+
+      // 这只仓鼠找到了食物
+      speedy.eat("apple");
+      alert(speedy.stomach); // apple
+
+      // 这只仓鼠也找到了食物，为什么？请修复它。
+      alert(lazy.stomach); // apple
+    }
+
+  </script>
+</body>
+
+</html>

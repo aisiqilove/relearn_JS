@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>settimeout-setinterval</title>
+</head>
+
+<body>
+  <script>
+    //     垃圾回收和 setInterval/setTimeout 回调（callback）
+    // 当一个函数传入 setInterval/setTimeout 时，将为其创建一个内部引用，并保存在调度程序中。这样，即使这个函数没有其他引用，也能防止垃圾回收器（GC）将其回收。
+    // 在调度程序调用这个函数之前，这个函数将一直存在于内存中
+    // setTimeout(function() {...}, 100);
+
+    // let i = 1;
+    // setTimeout(function run() {
+    //   func(i++);
+    //   setTimeout(run, 100);
+    // }, 100);
+    // function func(i) {
+    //   console.log(i)
+    // }
+
+
+    function printNumbers(from, to) {
+      let i = from
+      // let timer = setInterval(() => {
+      //   i++
+      //   console.log(i)
+      //   if (i >= to) {
+      //     clearInterval(timer)
+      //   }
+      // }, 100);
+
+      let timer = setTimeout(function run() {
+        i++
+        console.log(i)
+        if (i >= to) {
+          return clearTimeout(timer)
+        }
+        timer = setTimeout(run, 100)
+      }, 100);
+    }
+    // printNumbers(0, 100)
+
+    { // setTimeout/setInterval为宏任务 在同步执行完后 执行
+      let i = 0;
+
+      setTimeout(() => alert(i), 10); // ?
+
+      // 假设这段代码的运行时间 >100ms
+      for (let j = 0; j < 10000; j++) {
+        i++;
+      }
+    }
+
+  </script>
+</body>
+
+</html>

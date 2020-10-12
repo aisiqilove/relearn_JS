@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>new Function语法</title>
+</head>
+
+<body>
+  <script>
+    //闭包是指使用一个特殊的属性 [[Environment]] 来记录函数自身的创建时的环境的函数。它具体指向了函数创建时的词法环境。
+
+    // 如果我们使用 new Function 创建一个函数，那么该函数的 [[Environment]] 并不指向当前的词法环境，而是指向全局环境。
+    
+    function getFunc() {
+      let value = "test";
+
+      let func = new Function('alert(value)');
+
+      return func;
+    }
+
+    getFunc()(); // error: value is not defined
+  </script>
+</body>
+
+</html>
