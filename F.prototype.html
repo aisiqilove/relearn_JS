@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>F.prototype</title>
+</head>
+
+<body>
+  <script>
+    let animal = {
+      eats: true
+    };
+
+    function Rabbit(name) {
+      this.name = name;
+    }
+
+
+    // 默认的 "prototype" 是一个只有属性 constructor 的对象，属性 constructor 指向函数自身。
+    /* default prototype
+    Rabbit.prototype = { constructor: Rabbit };
+    */
+
+    Rabbit.prototype = animal;
+
+    let rabbit = new Rabbit("White Rabbit"); //  rabbit.__proto__ == animal
+
+    console.log(rabbit.eats); // true
+
+    // F.prototype 仅用在 new F 时
+    // F.prototype 属性仅在 new F 被调用时使用，它为新对象的 [[Prototype]] 赋值。
+
+    {
+      function Rabbit() { }
+      Rabbit.prototype = {
+        eats: true
+      };
+
+      let rabbit = new Rabbit();
+
+      Rabbit.prototype = {}; // Rabbit.prototype 的赋值操作为新对象设置了 [[Prototype]]，但它不影响已有的对象。
+
+      console.log(rabbit.eats); // ?
+    }
+
+
+    {
+      function Rabbit() { }
+      Rabbit.prototype = {
+        jumps: true
+      };
+
+      let rabbit = new Rabbit();
+      console.log(rabbit.constructor === Rabbit); // false
+    }
+
+    {
+      function OBJ() {
+
+      }
+      // OBJ.prototype = {} // 导致constructor丢失
+      let obj = new OBJ()
+      let obj2 = new obj.constructor();
+      console.log(obj.__proto__ == obj2.__proto__)
+
+    }
+
+    {
+      let dictionary = Object.create(null, {
+        toString: {
+          value () {
+            console.log(Object.keys(this))
+            console.log('1111')
+            return Object.keys(this).join()
+          }
+        }
+      });
+
+      // 你的添加 dictionary.toString 方法的代码
+        // 添加一些数据
+        dictionary.apple = "Apple";
+      dictionary.__proto__ = "test"; // 这里 __proto__ 是一个常规的属性键
+
+      // 在循环中只有 apple 和 __proto__
+      for (let key in dictionary) {
+        console.log(key); // "apple", then "__proto__"
+      }
+
+      // 你的 toString 方法在发挥作用
+      console.log(dictionary.toString()); // "apple,__proto__"
+    }
+
+  </script>
+</body>
+
+</html>

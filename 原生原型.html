@@ -9,16 +9,22 @@
 
 <body>
   <script>
-    function f(a,b) {
-      alert(a+b);
+
+    // 其他内建对象，像 Array、Date、Function 及其他，都在 prototype 上挂载了方法。
+
+    // 例如，当我们创建一个数组 [1, 2, 3]，在内部会默认使用 new Array() 构造器。因此 Array.prototype 变成了这个数组的 prototype，并为这个数组提供数组的操作方法。这样内存的存储效率是很高的。
+
+    // 按照规范，所有的内建原型顶端都是 Object.prototype。这就是为什么有人说“一切都从对象继承而来”。
+    function f(a, b) {
+      alert(a + b);
     }
     Function.prototype.defer = function (ms) {
       let f = this
-      return function(...agrs) {
+      return function (...agrs) {
         setTimeout(() => f.apply(this, agrs), ms);
       }
     }
-    f.defer(1000)(1,2); // 1 秒后显示 "Hello!"
+    f.defer(1000)(1, 2); // 1 秒后显示 "Hello!"
   </script>
 </body>
 

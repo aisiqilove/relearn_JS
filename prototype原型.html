@@ -36,8 +36,10 @@
     console.log(food.prototype.constructor == food)
     console.log(food1.__proto__.constructor == food)
 
-    console.log(food.prototype)
-
+    console.log(food.prototype.__proto__.__proto__)
+    console.log(food1.__proto__.__proto__.__proto__)
+    
+    console.log('--------------')
     console.log(rabbit)
     // console.log(animal)
 
