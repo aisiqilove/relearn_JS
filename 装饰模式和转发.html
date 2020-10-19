@@ -38,9 +38,9 @@
         }
 
         function delay(f, delay) {
-            function warpper(...agrs) {
+            function warpper(...args) {
                 setTimeout(() => {
-                    f.apply(this, agrs)
+                    f.apply(this, args)
                 }, delay)
             }
             return warpper
@@ -50,10 +50,10 @@
         f1000('test')
 
         function debounce(f, delay, i = null) {
-            return (...agrs) => {
+            return (...args) => {
                 console.log('222')
                 clearTimeout(i)
-                i = setTimeout(() => f(...agrs), delay)
+                i = setTimeout(() => f(...args), delay)
             }
         }
         let fa = debounce(f, 2000)
@@ -61,10 +61,10 @@
 
         function throttle(f, delay) {
             let flag = false
-            return (...agrs) => {
+            return (...args) => {
                 if (flag) return
                 flag = true
-                f(...agrs)
+                f(...args)
                 setTimeout(() => { flag = false }, delay)
             }
         }
