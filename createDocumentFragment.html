@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var el;
+        var i = 0;
+        var fragment = document.createDocumentFragment();
+
+        while (i < 200) {
+            el = document.createElement('li');
+            el.innerText = 'This is my list item number ' + i;
+            fragment.appendChild(el);
+            i++;
+        }
+
+        div.appendChild(fragment);
+    </script>
+</body>
+
+</html>

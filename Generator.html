@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Generator</title>
 </head>
+
 <body>
   <script>
     function* generator() {
@@ -13,10 +15,53 @@
       // return 3
     }
     let nextG = generator()
-    console.log(nextG.next())
-    console.log(nextG.next())
-    console.log(nextG.next())
-    console.log(nextG.next())
+    // console.log(nextG.next())
+
+    function* generatorSequence(start, end) {
+      for (let i = start; i <= end; i++) yield i
+    }
+    for (value of generatorSequence(48, 59)) {
+      console.log(value)
+    }
+
+    function* generatePasswordCodes() {
+      yield* generatorSequence(48, 59)
+      yield* generatorSequence(65, 90)
+      yield* generatorSequence(97, 122)
+    }
+    let str = ''
+    for (code of generatePasswordCodes()) {
+      str += String.fromCharCode(code)
+    }
+    // console.log(str)
+
+    {
+      function* pseudoRandom(previous) {
+        let value = previous
+        while (true) {
+          value = value * 16807 % 2147483647
+          yield value
+        }
+      }
+      let generator = pseudoRandom(1);
+      console.log(generator.next().value); // 16807
+      console.log(generator.next().value); // 282475249
+      console.log(generator.next().value); // 1622650073
+      console.log(generator.next().value); // 984943658
+      console.log(generator.next().value); // 984943658
+    }
+
+    {
+      function pseudoRandom(previous) {
+        let value = previous
+        while (true) {
+          value = value * 16807 % 2147483647
+          console.log(value)
+        }
+      }
+      // pseudoRandom(1)
+    }
   </script>
 </body>
+
 </html>
