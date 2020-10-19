@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>内建类</title>
+</head>
+
+<body>
+  <script>
+    class PowerArray extends Array {
+      isEmpty() {
+        return this.length === 0;
+      }
+
+      // 内建方法将使用这个作为 constructor
+      static get [Symbol.species]() {
+        return Array;
+      }
+    }
+
+    let arr = new PowerArray(1, 2, 5, 10, 50);
+    alert(arr.isEmpty()); // false
+
+    // filter 使用 arr.constructor[Symbol.species] 作为 constructor 创建新数组
+    let filteredArr = arr.filter(item => item >= 10);
+
+    // filteredArr 不是 PowerArray，而是 Array
+    // alert(filteredArr.isEmpty()); // Error: filteredArr.isEmpty is not a function
+
+  </script>
+</body>
+
+</html>

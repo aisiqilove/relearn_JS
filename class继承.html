@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>class继承</title>
+</head>
+
+<body>
+  <script>
+    //1. extends 关键字 在 extends 后允许任意表达式
+    function f(phrase) {
+      return class {
+        sayHi() { alert(phrase) }
+      }
+    }
+
+    class User extends f("Hello") { }
+
+    // new User().sayHi(); // Hello
+
+    //2. 重写方法 super()
+    // 执行 super.method(...) 来调用一个父类方法。
+    // 执行 super(...) 来调用一个父类 constructor（只能在我们的 constructor 中）。
+
+    class Animal {
+
+      constructor(name) {
+        this.speed = 0;
+        this.name = name;
+      }
+
+      run(speed) {
+        this.speed = speed;
+        alert(`${this.name} runs with speed ${this.speed}.`);
+      }
+
+      stop() {
+        this.speed = 0;
+        alert(`${this.name} stands still.`);
+      }
+
+    }
+
+    // class Rabbit extends Animal {
+    //   hide() {
+    //     alert(`${this.name} hides!`);
+    //   }
+
+    //   stop() {
+    //     // super.stop(); // 调用父类的 stop
+    //     console.log('this stop no parent')
+    //     this.hide(); // 然后 hide
+    //   }
+    // }
+
+
+    // rabbit.run(5); // White Rabbit 以速度 5 奔跑
+
+    //3. 箭头函数没有 super。如果被访问，它会从外部函数获取
+    class Rabbit extends Animal {
+      stop() {
+        setTimeout(() => super.stop(), 1000); // 1 秒后调用父类的 stop
+        // setTimeout(function() { super.stop() }, 1000);  // 报错
+      }
+    }
+    let rabbit = new Rabbit("White Rabbit");
+    // rabbit.stop(); // White Rabbit 停止了。White rabbit hide 了！
+
+
+    //4. 继承类的 constructor 必须调用 super(...)，并且 (!) 一定要在使用 this 之前调用。
+
+
+  </script>
+
+  <script>
+
+    class Clock {
+      constructor({ template }) {
+        this.template = template;
+      }
+
+      render() {
+        let date = new Date();
+
+        let hours = date.getHours();
+        if (hours < 10) hours = '0' + hours;
+
+        let mins = date.getMinutes();
+        if (mins < 10) mins = '0' + mins;
+
+        let secs = date.getSeconds();
+        if (secs < 10) secs = '0' + secs;
+
+        let output = this.template
+          .replace('h', hours)
+          .replace('m', mins)
+          .replace('s', secs);
+
+        console.log(output);
+      }
+
+      stop() {
+        clearInterval(this.timer);
+      }
+
+      start() {
+        this.render();
+        this.timer = setInterval(() => this.render(), 1000);
+      }
+    }
+
+    class ExtendedClock extends Clock {
+      constructor(options) {
+        super(options)
+        let { precision= 1000 } = options
+        this.precision = precision
+      }
+      // constructor({ template }, precision = 1000) {
+      //   super({ template })
+      //   this.precision = precision
+      // }
+      start() {
+        this.render();
+        this.timer = setInterval(() => this.render(), this.precision);
+      }
+    }
+
+    let extendedClock = new ExtendedClock({ template: 'h:m:s',precision: 5000 })
+    extendedClock.start()
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>静态方法和静态属性</title>
+</head>
+
+<body>
+  <script>
+
+    {
+      class Rabbit {
+        constructor(name) {
+          this.name = name;
+        }
+      }
+
+      let rabbit = new Rabbit("Rab");
+
+      // hasOwnProperty 方法来自于 Object.prototype
+      console.log(rabbit.hasOwnProperty('name')); // true
+    }
+
+    class Rabbit extends Object {
+      constructor(name) {
+        super(); // 需要在继承时调用父类的 constructor
+        this.name = name;
+      }
+    }
+
+    let rabbit = new Rabbit("Rab");
+
+    console.log(rabbit.hasOwnProperty('name')); // true
+
+    // "class Rabbit extends Object" 和 class Rabbit 之间仍存在着重要差异。
+    // 我们知道，“extends” 语法会设置两个原型：
+    // 1 在构造函数的 "prototype" 之间设置原型（为了获取实例方法）。
+    // 2 在构造函数之间会设置原型（为了获取静态方法）。
+
+    console.log(Rabbit.prototype.__proto__ === Object.prototype); // (1) true
+    console.log(Rabbit.__proto__ === Object); // (2) true
+
+
+    // class Rabbit	                            class Rabbit extends Object
+    //   –	                                    needs to call super() in constructor
+    // Rabbit.__proto__ === Function.prototype	Rabbit.__proto__ === Object
+    
+    // 因为对于内建的 Object 构造函数而言，Object.__proto__ === Function.prototype。
+  </script>
+</body>
+
+</html>
