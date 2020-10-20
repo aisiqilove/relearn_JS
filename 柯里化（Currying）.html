@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>柯里化（Currying）</title>
+</head>
+
+<body>
+  <script>
+    // 柯里化是一种函数的转换，它是指将一个函数从可调用的 f(a, b, c) 转换为可调用的 f(a)(b)(c)。
+    // 柯里化不会调用函数。它只是对函数进行转换。
+    function sum(a, b, c) {
+      return a + b + c;
+    }
+
+    function curry(func) {
+
+      return function curried(...args) {
+        if (args.length >= func.length) {
+          return func.apply(this, args);
+        } else {
+          return function (...args2) {
+            return curried.apply(this, args.concat(args2));
+          }
+        }
+      };
+
+    }
+
+    let sum2 = curry(sum)
+    console.log(sum2(1,2))
+  </script>
+</body>
+
+</html>
